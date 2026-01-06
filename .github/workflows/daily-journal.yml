@@ -1,0 +1,117 @@
+name: Daily Learning Journal Entry
+
+on:
+  schedule:
+    # Runs every day at random times (multiple times for more "natural" activity)
+    # 8 AM WIB (1 AM UTC)
+    - cron: '0 1 * * *'
+    # 2 PM WIB (7 AM UTC)  
+    - cron: '30 7 * * *'
+    # 9 PM WIB (2 PM UTC)
+    - cron: '15 14 * * *'
+  workflow_dispatch: # Allow manual trigger for testing
+
+permissions:
+  contents: write
+
+jobs:
+  add-journal-entry:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+      - name: Add journal entry
+        run: |
+          # Get current date info
+          YEAR_MONTH=$(date -u +"%Y-%m")
+          DAY=$(date -u +"%d")
+          YEAR=$(date -u +"%Y")
+          MONTH_NAME=$(date -u +"%B")
+          TIME_WIB=$(TZ="Asia/Jakarta" date +"%H:%M WIB")
+          FULL_DATE=$(date -u +"%Y-%m-%d")
+          
+          # Select random quote
+          QUOTE=$(shuf -n 1 quotes.txt)
+          
+          # Journal file path
+          JOURNAL_FILE="journal/${YEAR_MONTH}.md"
+          
+          # Create journal file if it doesn't exist
+          if [ ! -f "$JOURNAL_FILE" ]; then
+            echo "# 📓 Learning Journal - ${MONTH_NAME} ${YEAR}" > "$JOURNAL_FILE"
+            echo "" >> "$JOURNAL_FILE"
+            echo "Daily reflections and insights." >> "$JOURNAL_FILE"
+            echo "" >> "$JOURNAL_FILE"
+            echo "---" >> "$JOURNAL_FILE"
+          fi
+          
+          # Generate random reflection topics
+          TOPICS=("productivity" "coding" "learning" "focus" "creativity" "problem-solving" "growth mindset" "consistency" "time management" "skill building")
+          RANDOM_TOPIC=${TOPICS[$RANDOM % ${#TOPICS[@]}]}
+          
+          REFLECTIONS=(
+            "Focused on improving ${RANDOM_TOPIC} today."
+            "Made progress in ${RANDOM_TOPIC}."
+            "Spent time thinking about ${RANDOM_TOPIC}."
+            "Working on getting better at ${RANDOM_TOPIC}."
+            "Today's theme: ${RANDOM_TOPIC}."
+            "Practiced ${RANDOM_TOPIC} techniques."
+            "Explored new ideas around ${RANDOM_TOPIC}."
+            "Continuing the journey of ${RANDOM_TOPIC}."
+          )
+          RANDOM_REFLECTION=${REFLECTIONS[$RANDOM % ${#REFLECTIONS[@]}]}
+          
+          # Append new entry
+          echo "" >> "$JOURNAL_FILE"
+          echo "## ${MONTH_NAME} ${DAY#0}, ${YEAR}" >> "$JOURNAL_FILE"
+          echo "" >> "$JOURNAL_FILE"
+          echo "**Time:** ${TIME_WIB}" >> "$JOURNAL_FILE"
+          echo "" >> "$JOURNAL_FILE"
+          echo "**Quote of the day:**" >> "$JOURNAL_FILE"
+          echo "> \"${QUOTE}\"" >> "$JOURNAL_FILE"
+          echo "" >> "$JOURNAL_FILE"
+          echo "**Today's reflection:**" >> "$JOURNAL_FILE"
+          echo "${RANDOM_REFLECTION}" >> "$JOURNAL_FILE"
+          echo "" >> "$JOURNAL_FILE"
+          echo "---" >> "$JOURNAL_FILE"
+          
+          # Update streak counter
+          CURRENT_COUNT=$(jq '.total_entries' data/streak.json)
+          NEW_COUNT=$((CURRENT_COUNT + 1))
+          jq --arg date "$FULL_DATE" --argjson count "$NEW_COUNT" \
+            '.total_entries = $count | .last_updated = $date' \
+            data/streak.json > temp.json && mv temp.json data/streak.json
+          
+      - name: Commit and push changes
+        run: |
+          git add .
+          
+          # Random commit messages to look more natural
+          MESSAGES=(
+            "📝 Daily journal entry"
+            "✍️ Added today's reflection"
+            "📓 Journal update"
+            "🎯 Daily progress log"
+            "💭 Today's thoughts"
+            "📊 Streak update"
+            "🌟 Daily entry added"
+            "📖 Learning log update"
+          )
+          COMMIT_MSG=${MESSAGES[$RANDOM % ${#MESSAGES[@]}]}
+          
+          # Only commit if there are changes
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "$COMMIT_MSG"
+            git push
+          fi
