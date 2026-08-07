@@ -8,25 +8,24 @@ experience in its own journal.
 <!-- PET-STATUS:START -->
 ```text
       ,--.
-     / ?? \
-    | ?  ? |
-     \ ?? /
-      `--'
-   ..........
+     / o  \_
+    | ..    \
+     \______/>
+      w   w
 ```
 
-### 🥚 Widya the Bookwyrm — Mysterious Egg, Lv.1
+### 🐣 Widya the Bookwyrm — Hatchling, Lv.1
 
-**Mood:** 🤩 Thriving &nbsp;·&nbsp; **Streak:** 🔥 1 day(s) &nbsp;·&nbsp; **Facts eaten:** 🍽️ 2
+**Mood:** 🤩 Thriving &nbsp;·&nbsp; **Streak:** 🔥 1 day(s) &nbsp;·&nbsp; **Facts eaten:** 🍽️ 4
 
 | Stat | Level |
 |------|-------|
-| 🍖 Hunger | `██████████` 95/100 |
-| 💖 Happiness | `████████░░` 78/100 |
-| ⚡ Energy | `█████████░` 93/100 |
-| 🧠 Knowledge | 19 XP — 11 XP until **Hatchling** 🐣 |
+| 🍖 Hunger | `██████████` 100/100 |
+| 💖 Happiness | `█████████░` 93/100 |
+| ⚡ Energy | `██████████` 100/100 |
+| 🧠 Knowledge | 39 XP — 111 XP until **Wyrmling** 🐛 |
 
-*Last cared for: Friday, August 7, 2026 at 14:25 WIB*
+*Last cared for: Friday, August 7, 2026 at 22:09 WIB*
 <!-- PET-STATUS:END -->
 
 ## 🎮 How it works
