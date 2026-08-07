@@ -1,0 +1,62 @@
+name: Feed Widya the Bookwyrm
+
+on:
+  schedule:
+    # Three care events a day (times in WIB, UTC+7):
+    # 🍳 Breakfast  — 8:00 AM WIB (1:00 UTC)
+    - cron: '0 1 * * *'
+    # 📚 Study time — 2:30 PM WIB (7:30 UTC)
+    - cron: '30 7 * * *'
+    # 🌙 Bedtime    — 9:15 PM WIB (14:15 UTC)
+    - cron: '15 14 * * *'
+  workflow_dispatch: # Manual feeding allowed (and encouraged)
+
+permissions:
+  contents: write
+
+concurrency:
+  group: tamagotchi-care
+  cancel-in-progress: false
+
+jobs:
+  care-for-pet:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configure Git
+        run: |
+          git config user.name "Ade Naufal Ammar"
+          git config user.email "ade.naufal@gmail.com"
+
+      - name: Run care event (research + feed + journal)
+        run: python3 scripts/tamagotchi.py
+
+      - name: Commit and push changes
+        run: |
+          git add .
+
+          MESSAGES=(
+            "🍽️ Fed Widya a fresh fact"
+            "🐉 Widya learned something new today"
+            "📚 Study session with Widya"
+            "🌙 Bedtime story for Widya"
+            "✨ Widya's daily research"
+            "🧠 Knowledge XP gained"
+            "🥚 Tamagotchi care event"
+            "🔥 Streak maintained — Widya is happy"
+          )
+          COMMIT_MSG=${MESSAGES[$RANDOM % ${#MESSAGES[@]}]}
+
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "$COMMIT_MSG"
+            # Retry push in case another care event raced us
+            for i in 1 2 3; do
+              git push && break
+              git pull --rebase
+            done
+          fi
