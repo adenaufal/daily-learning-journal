@@ -14,18 +14,18 @@ experience in its own journal.
       w   w
 ```
 
-### 🐣 Widya the Bookwyrm — Hatchling, Lv.1
+### 🐣 Widya the Bookwyrm — Hatchling, Lv.2
 
-**Mood:** 🤩 Thriving &nbsp;·&nbsp; **Streak:** 🔥 1 day(s) &nbsp;·&nbsp; **Facts eaten:** 🍽️ 4
+**Mood:** 🤩 Thriving &nbsp;·&nbsp; **Streak:** 🔥 2 day(s) &nbsp;·&nbsp; **Facts eaten:** 🍽️ 6
 
 | Stat | Level |
 |------|-------|
 | 🍖 Hunger | `██████████` 100/100 |
-| 💖 Happiness | `█████████░` 93/100 |
+| 💖 Happiness | `██████████` 100/100 |
 | ⚡ Energy | `██████████` 100/100 |
-| 🧠 Knowledge | 39 XP — 111 XP until **Wyrmling** 🐛 |
+| 🧠 Knowledge | 55 XP — 95 XP until **Wyrmling** 🐛 |
 
-*Last cared for: Friday, August 7, 2026 at 22:09 WIB*
+*Last cared for: Saturday, August 8, 2026 at 09:57 WIB*
 <!-- PET-STATUS:END -->
 
 ## 🎮 How it works
